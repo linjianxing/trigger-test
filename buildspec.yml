@@ -1,0 +1,18 @@
+version: 0.2
+
+phases:
+  pre_build:
+    commands:
+      - echo Logging in to Amazon ECR...
+  build:
+    commands:
+      - echo Build started on `date`
+      - docker build -t $TAG --build-arg branch=$BRANCH .
+  post_build:
+    commands:
+      - echo Build completed on `date`
+      - echo Salve img on `date`
+      - docker save -o $TAG.tar $TAG
+artifacts:
+  files:
+    - $TAG.tar
